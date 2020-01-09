@@ -1,8 +1,5 @@
-import csv
 import glob
-import json
 import os
-import re
 
 path_to_logs = '/home/alina.gotovtceva/china-logs'
 
