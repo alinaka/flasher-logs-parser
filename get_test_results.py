@@ -9,7 +9,7 @@ logfile = max(glob.glob(os.path.join(path_to_logs, '*/RS2_LoopTesting.json')), k
 
 print("Looking into {}\n".format(logfile))
 
-failed_tests, errors, counts = [defaultdict(int) for i in range(3)]
+failed_tests, errors, counts = [defaultdict(int) for _ in range(3)]
 
 with open(logfile) as f:
     try:
@@ -30,7 +30,7 @@ with open(logfile) as f:
 for res_type, count in counts.items():
     print(res_type, count)
 
-print("")
+print()
 
 if errors:
     print("Errors: ")
