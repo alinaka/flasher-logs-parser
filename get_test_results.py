@@ -7,7 +7,9 @@ from collections import defaultdict
 path_to_logs = os.path.join(os.getenv("HOME"), ".local", "share", "Emlid", "Emlid Manufacturing Flash Tool", "logs")
 logfile = max(glob.glob(os.path.join(path_to_logs, '*/RS2_LoopTesting.json')), key=os.path.getmtime)
 
-print("Looking into {}\n".format(logfile))
+print("Looking into {}".format(logfile))
+last_logfile = max(glob.glob(os.path.join(path_to_logs, '*', 'devices', '*.log')), key=os.path.getmtime)
+print("Last modified logfile is {}\n".format(last_logfile))
 
 failed_tests, errors, counts = [defaultdict(int) for _ in range(3)]
 
