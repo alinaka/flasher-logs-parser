@@ -2,7 +2,9 @@ import glob
 import json
 import operator
 import os
+import psutil
 from collections import defaultdict
+from datetime import datetime
 
 path_to_logs = os.path.join(os.getenv("HOME"), ".local", "share", "Emlid", "Emlid Manufacturing Flash Tool", "logs")
 logfile = max(glob.glob(os.path.join(path_to_logs, '*/RS2_LoopTesting.json')), key=os.path.getmtime)
@@ -10,6 +12,15 @@ logfile = max(glob.glob(os.path.join(path_to_logs, '*/RS2_LoopTesting.json')), k
 print("Looking into {}".format(logfile))
 last_logfile = max(glob.glob(os.path.join(path_to_logs, '*', 'devices', '*.log')), key=os.path.getmtime)
 print("Last modified logfile is {}\n".format(last_logfile))
+
+for proc in psutil.process_iter():
+    if "Emlid" in proc.name():
+        start_time = datetime.fromtimestamp(proc.create_time())
+        print("Flasher session is running {}".format(datetime.now() - start_time))
+        break
+else:
+    print("Flasher is no longer running")
+print()
 
 failed_tests, errors, counts = [defaultdict(int) for _ in range(3)]
 
