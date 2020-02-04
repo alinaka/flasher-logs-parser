@@ -37,7 +37,7 @@ with open(logfile) as f:
             for test in result["tests"]:
                 for k, v in test.items():
                     if v is False:
-                        failed_tests[k] += 1
+                        failed_tests[test["name"]+ ' ' + result["port_path"]] += 1
         counts[result["result_type"]] += 1
 
 for res_type, count in counts.items():
