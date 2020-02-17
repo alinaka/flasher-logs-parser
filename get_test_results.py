@@ -12,9 +12,13 @@ def main():
     argparser = argparse.ArgumentParser()
     argparser.add_argument("--devtype", default="RS2_LoopTesting")
     argparser.add_argument("--home", default=os.getenv("HOME"))
+    argparser.add_argument('--cli', action='store_true', default=False)
     args = argparser.parse_args()
 
-    path_to_logs = os.path.join(args.home, ".local", "share", "Emlid", "Emlid Manufacturing Flash Tool", "logs")
+    appdir = "Emlid Manufacturing Flash Tool"
+    if args.cli:
+        appdir += " CLI"
+    path_to_logs = os.path.join(args.home, ".local", "share", "Emlid", appdir, "logs")
     logfile = max(glob.glob(os.path.join(path_to_logs, '*/{}.json'.format(args.devtype))), key=os.path.getmtime)
 
     print("Looking into {}".format(logfile))
@@ -45,7 +49,7 @@ def main():
                 for test in result["tests"]:
                     for k, v in test.items():
                         if v is False:
-                            failed_tests[test["name"]+ ' ' + result["port_path"]] += 1
+                            failed_tests[test["name"] + ' ' + result["port_path"]] += 1
             counts[result["result_type"]] += 1
 
     for res_type, count in counts.items():
